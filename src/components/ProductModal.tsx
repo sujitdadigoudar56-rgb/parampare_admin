@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../api';
 import { X, ImagePlus, Loader2 } from 'lucide-react';
+import { 
+  FABRIC_OPTIONS, COLOR_OPTIONS, OCCASION_OPTIONS, WEAVE_OPTIONS, 
+  BORDER_OPTIONS, PALLU_OPTIONS, BLOUSE_OPTIONS, BADGE_OPTIONS 
+} from '../constants/productOptions';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -29,6 +33,8 @@ interface ProductFormData {
   badges: string[];
   careInstructions: string;
   images: string[];
+  rating: string;
+  reviewCount: string;
 }
 
 const INITIAL_FORM: ProductFormData = {
@@ -37,9 +43,9 @@ const INITIAL_FORM: ProductFormData = {
   fabric: '', color: '', occasion: '',
   weave: '', border: '', pallu: '', blouse: '',
   stockQuantity: '0', badges: [], careInstructions: '', images: [],
+  rating: '0', reviewCount: '0',
 };
 
-const BADGE_OPTIONS = ['Best Seller', 'New Arrival', 'GI Certified'];
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -106,6 +112,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
         badges: editProduct.badges || [],
         careInstructions: (editProduct.careInstructions || []).join(', '),
         images: editProduct.images || [],
+        rating: String(editProduct.rating || 0),
+        reviewCount: String(editProduct.reviewCount || 0),
       });
     } else {
       setForm(INITIAL_FORM);
@@ -183,6 +191,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
         ? form.careInstructions.split(',').map(s => s.trim()).filter(Boolean)
         : [],
       images: form.images,
+      rating: Number(form.rating),
+      reviewCount: Number(form.reviewCount),
     };
 
     try {
@@ -290,6 +300,16 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
                 <input name="originalPrice" type="number" min="0" value={form.originalPrice} onChange={handleChange} style={inp} placeholder="6999" />
               </div>
             </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginTop: '1rem' }}>
+              <div>
+                <label style={lbl}>Average Rating (0-5)</label>
+                <input name="rating" type="number" min="0" max="5" step="0.1" value={form.rating} onChange={handleChange} style={inp} placeholder="4.5" />
+              </div>
+              <div>
+                <label style={lbl}>Review Count</label>
+                <input name="reviewCount" type="number" min="0" value={form.reviewCount} onChange={handleChange} style={inp} placeholder="24" />
+              </div>
+            </div>
           </div>
 
           {/* ── Category & Subcategory ── */}
@@ -335,13 +355,55 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
           <div style={card}>
             <p style={cardTitle}>Saree Attributes</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              {(['fabric', 'color', 'occasion', 'weave', 'border', 'pallu', 'blouse'] as const).map(field => (
-                <div key={field}>
-                  <label style={lbl}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                  <input name={field} value={form[field]} onChange={handleChange} style={inp}
-                    placeholder={field === 'fabric' ? 'e.g. Silk' : field === 'color' ? 'e.g. Red' : ''} />
-                </div>
-              ))}
+              <div>
+                <label style={lbl}>Fabric</label>
+                <select name="fabric" value={form.fabric} onChange={handleChange} style={inp}>
+                  <option value="">Select Fabric...</option>
+                  {FABRIC_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>Color</label>
+                <select name="color" value={form.color} onChange={handleChange} style={inp}>
+                  <option value="">Select Color...</option>
+                  {COLOR_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>Occasion</label>
+                <select name="occasion" value={form.occasion} onChange={handleChange} style={inp}>
+                  <option value="">Select Occasion...</option>
+                  {OCCASION_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>Weave</label>
+                <select name="weave" value={form.weave} onChange={handleChange} style={inp}>
+                  <option value="">Select Weave...</option>
+                  {WEAVE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>Border</label>
+                <select name="border" value={form.border} onChange={handleChange} style={inp}>
+                  <option value="">Select Border...</option>
+                  {BORDER_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>Pallu</label>
+                <select name="pallu" value={form.pallu} onChange={handleChange} style={inp}>
+                  <option value="">Select Pallu...</option>
+                  {PALLU_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>Blouse</label>
+                <select name="blouse" value={form.blouse} onChange={handleChange} style={inp}>
+                  <option value="">Select Blouse...</option>
+                  {BLOUSE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+              </div>
             </div>
           </div>
 

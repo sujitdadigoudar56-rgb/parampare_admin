@@ -3,9 +3,12 @@ import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-do
 import { LayoutDashboard, Users, ShoppingBag, ShoppingCart, LogOut } from 'lucide-react';
 
 import Dashboard from './pages/Dashboard';
-import UsersList from './pages/Users';
-import Products from './pages/Products';
-import Orders from './pages/Orders';
+import UsersPage from './pages/Users';
+import UserDetails from './pages/UserDetails';
+import ProductsPage from './pages/Products';
+import ProductDetails from './pages/ProductDetails';
+import OrdersPage from './pages/Orders';
+import OrderDetails from './pages/OrderDetails';
 import Login from './pages/Login';
 
 const Sidebar = ({ onLogout }: { onLogout: () => void }) => (
@@ -60,9 +63,12 @@ function App() {
               <main className="main-content">
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/users" element={<UsersList />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/users" element={<UsersPage />} />
+                  <Route path="/users/:id" element={<UserDetails />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/products/:id" element={<ProductDetails />} />
+                  <Route path="/orders" element={<OrdersPage />} />
+                  <Route path="/orders/:id" element={<OrderDetails />} />
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 </Routes>
               </main>
