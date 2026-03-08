@@ -35,6 +35,7 @@ interface ProductFormData {
   images: string[];
   rating: string;
   reviewCount: string;
+  reviewDescription: string;
 }
 
 const INITIAL_FORM: ProductFormData = {
@@ -43,7 +44,7 @@ const INITIAL_FORM: ProductFormData = {
   fabric: '', color: '', occasion: '',
   weave: '', border: '', pallu: '', blouse: '',
   stockQuantity: '0', badges: [], careInstructions: '', images: [],
-  rating: '0', reviewCount: '0',
+  rating: '0', reviewCount: '0', reviewDescription: '',
 };
 
 
@@ -114,6 +115,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
         images: editProduct.images || [],
         rating: String(editProduct.rating || 0),
         reviewCount: String(editProduct.reviewCount || 0),
+        reviewDescription: editProduct.reviewDescription || '',
       });
     } else {
       setForm(INITIAL_FORM);
@@ -193,6 +195,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
       images: form.images,
       rating: Number(form.rating),
       reviewCount: Number(form.reviewCount),
+      reviewDescription: form.reviewDescription,
     };
 
     try {
@@ -309,6 +312,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
                 <label style={lbl}>Review Count</label>
                 <input name="reviewCount" type="number" min="0" value={form.reviewCount} onChange={handleChange} style={inp} placeholder="24" />
               </div>
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              <label style={lbl}>Review Description</label>
+              <textarea name="reviewDescription" value={form.reviewDescription} onChange={handleChange} rows={2} style={{ ...inp, resize: 'vertical' }} placeholder="Authentic craftsmanship and beautiful drape..." />
             </div>
           </div>
 

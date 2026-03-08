@@ -69,7 +69,8 @@ const ProductDetails = () => {
           careInstructions: (prod.careInstructions || []).join(', '),
           images: prod.images || [],
           rating: String(prod.rating || 0),
-          reviewCount: String(prod.reviewCount || 0)
+          reviewCount: String(prod.reviewCount || 0),
+          reviewDescription: prod.reviewDescription || ''
         });
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -132,7 +133,8 @@ const ProductDetails = () => {
           ? editedData.careInstructions.split(',').map((s: string) => s.trim()).filter(Boolean)
           : [],
         rating: Number(editedData.rating),
-        reviewCount: Number(editedData.reviewCount)
+        reviewCount: Number(editedData.reviewCount),
+        reviewDescription: editedData.reviewDescription
       };
 
       await api.put(`/admin/products/${id}`, payload);
@@ -318,6 +320,14 @@ const ProductDetails = () => {
                       <p style={{fontSize: '1.125rem'}}>{product.reviewCount || 0} reviews</p>
                     )}
                   </div>
+                </div>
+                <div>
+                  <label style={labelStyle}>Review Description</label>
+                  {isEditing ? (
+                    <textarea value={editedData.reviewDescription} onChange={(e) => setEditedData({...editedData, reviewDescription: e.target.value})} rows={2} style={{...inputStyle, resize: 'vertical'}} placeholder="Authentic craftsmanship..." />
+                  ) : (
+                    <p style={{fontSize: '1rem', fontStyle: 'italic', color: 'var(--text-muted)'}}>{product.reviewDescription || 'None'}</p>
+                  )}
                 </div>
               </div>
             </div>
