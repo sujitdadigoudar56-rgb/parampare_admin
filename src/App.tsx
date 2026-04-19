@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
-import { LayoutDashboard, Users, ShoppingBag, ShoppingCart, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, ShoppingBag, ShoppingCart, LogOut, Layers } from 'lucide-react';
 
 import Dashboard from './pages/Dashboard';
 import UsersPage from './pages/Users';
 import UserDetails from './pages/UserDetails';
 import ProductsPage from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
+import CategoriesPage from './pages/Categories';
 import OrdersPage from './pages/Orders';
 import OrderDetails from './pages/OrderDetails';
 import Login from './pages/Login';
@@ -23,6 +24,9 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => (
       </NavLink>
       <NavLink to="/products" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
         <ShoppingBag size={20} /> Products
+      </NavLink>
+      <NavLink to="/categories" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+        <Layers size={20} /> Categories
       </NavLink>
       <NavLink to="/orders" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
         <ShoppingCart size={20} /> Orders
@@ -67,6 +71,7 @@ function App() {
                   <Route path="/users/:id" element={<UserDetails />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetails />} />
+                  <Route path="/categories" element={<CategoriesPage />} />
                   <Route path="/orders" element={<OrdersPage />} />
                   <Route path="/orders/:id" element={<OrderDetails />} />
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
