@@ -24,7 +24,7 @@ export const BORDER_OPTIONS = [
 
 export const PALLU_OPTIONS = [
   'Rich Pallu', 'Contrast Pallu', 'Simple Pallu', 'Zari Pallu', 
-  'Tassel Pallu', 'Designer Pallu', 'Floral Pallu'
+  'Tassel Pallu', 'Designer Pallu', 'Floral Pallu', 'Tope Pallu'
 ];
 
 export const BLOUSE_OPTIONS = [

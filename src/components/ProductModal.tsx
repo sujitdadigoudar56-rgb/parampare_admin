@@ -22,13 +22,13 @@ interface ProductFormData {
   originalPrice: string;
   category: string;      // parent category _id
   subcategory: string;   // child category _id
-  fabric: string;
-  color: string;
-  occasion: string;
-  weave: string;
-  border: string;
-  pallu: string;
-  blouse: string;
+  fabric: string[];
+  color: string[];
+  occasion: string[];
+  weave: string[];
+  border: string[];
+  pallu: string[];
+  blouse: string[];
   stockQuantity: string;
   badges: string[];
   careInstructions: string;
@@ -41,8 +41,8 @@ interface ProductFormData {
 const INITIAL_FORM: ProductFormData = {
   name: '', description: '', price: '', originalPrice: '',
   category: '', subcategory: '',
-  fabric: '', color: '', occasion: '',
-  weave: '', border: '', pallu: '', blouse: '',
+  fabric: [], color: [], occasion: [],
+  weave: [], border: [], pallu: [], blouse: [],
   stockQuantity: '0', badges: [], careInstructions: '', images: [],
   rating: '0', reviewCount: '0', reviewDescription: '',
 };
@@ -95,6 +95,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
     if (editProduct) {
       const catId = editProduct.category?._id || editProduct.category || '';
       const subId = editProduct.subcategory?._id || editProduct.subcategory || '';
+      
+      const ensureArray = (val: any) => {
+        if (Array.isArray(val)) return val;
+        if (typeof val === 'string' && val) return [val];
+        return [];
+      };
+
       setForm({
         name: editProduct.name || '',
         description: editProduct.description || '',
@@ -102,13 +109,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
         originalPrice: String(editProduct.originalPrice || ''),
         category: catId,
         subcategory: subId,
-        fabric: editProduct.fabric || '',
-        color: editProduct.color || '',
-        occasion: editProduct.occasion || '',
-        weave: editProduct.weave || '',
-        border: editProduct.border || '',
-        pallu: editProduct.pallu || '',
-        blouse: editProduct.blouse || '',
+        fabric: ensureArray(editProduct.fabric),
+        color: ensureArray(editProduct.color),
+        occasion: ensureArray(editProduct.occasion),
+        weave: ensureArray(editProduct.weave),
+        border: ensureArray(editProduct.border),
+        pallu: ensureArray(editProduct.pallu),
+        blouse: ensureArray(editProduct.blouse),
         stockQuantity: String(editProduct.stockQuantity || 0),
         badges: editProduct.badges || [],
         careInstructions: (editProduct.careInstructions || []).join(', '),
@@ -129,6 +136,16 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const toggleAttribute = (key: keyof ProductFormData, value: string) => {
+    setForm(prev => {
+      const current = Array.isArray(prev[key]) ? (prev[key] as string[]) : [];
+      const updated = current.includes(value)
+        ? current.filter(v => v !== value)
+        : [...current, value];
+      return { ...prev, [key]: updated };
+    });
   };
 
   const toggleBadge = (badge: string) => {
@@ -230,8 +247,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
   };
   const cardTitle: React.CSSProperties = {
     fontWeight: 700, fontSize: '0.8rem', color: '#334155',
-    textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem',
+    textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.25rem',
   };
+
+
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
@@ -360,58 +379,14 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
 
           {/* ── Saree Attributes ── */}
           <div style={card}>
-            <p style={cardTitle}>Saree Attributes</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              <div>
-                <label style={lbl}>Fabric</label>
-                <select name="fabric" value={form.fabric} onChange={handleChange} style={inp}>
-                  <option value="">Select Fabric...</option>
-                  {FABRIC_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={lbl}>Color</label>
-                <select name="color" value={form.color} onChange={handleChange} style={inp}>
-                  <option value="">Select Color...</option>
-                  {COLOR_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={lbl}>Occasion</label>
-                <select name="occasion" value={form.occasion} onChange={handleChange} style={inp}>
-                  <option value="">Select Occasion...</option>
-                  {OCCASION_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={lbl}>Weave</label>
-                <select name="weave" value={form.weave} onChange={handleChange} style={inp}>
-                  <option value="">Select Weave...</option>
-                  {WEAVE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={lbl}>Border</label>
-                <select name="border" value={form.border} onChange={handleChange} style={inp}>
-                  <option value="">Select Border...</option>
-                  {BORDER_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={lbl}>Pallu</label>
-                <select name="pallu" value={form.pallu} onChange={handleChange} style={inp}>
-                  <option value="">Select Pallu...</option>
-                  {PALLU_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={lbl}>Blouse</label>
-                <select name="blouse" value={form.blouse} onChange={handleChange} style={inp}>
-                  <option value="">Select Blouse...</option>
-                  {BLOUSE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
-            </div>
+            <p style={cardTitle}>Saree Attributes (Multi-select)</p>
+            <AttributeSelector label="Fabric" options={FABRIC_OPTIONS} selected={form.fabric} onToggle={(v: string) => toggleAttribute('fabric', v)} labelStyle={lbl} />
+            <AttributeSelector label="Color" options={COLOR_OPTIONS} selected={form.color} onToggle={(v: string) => toggleAttribute('color', v)} labelStyle={lbl} />
+            <AttributeSelector label="Occasion" options={OCCASION_OPTIONS} selected={form.occasion} onToggle={(v: string) => toggleAttribute('occasion', v)} labelStyle={lbl} />
+            <AttributeSelector label="Weave" options={WEAVE_OPTIONS} selected={form.weave} onToggle={(v: string) => toggleAttribute('weave', v)} labelStyle={lbl} />
+            <AttributeSelector label="Border" options={BORDER_OPTIONS} selected={form.border} onToggle={(v: string) => toggleAttribute('border', v)} labelStyle={lbl} />
+            <AttributeSelector label="Pallu" options={PALLU_OPTIONS} selected={form.pallu} onToggle={(v: string) => toggleAttribute('pallu', v)} labelStyle={lbl} />
+            <AttributeSelector label="Blouse" options={BLOUSE_OPTIONS} selected={form.blouse} onToggle={(v: string) => toggleAttribute('blouse', v)} labelStyle={lbl} />
           </div>
 
           {/* ── Badges & Care ── */}
@@ -456,5 +431,53 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSaved, e
     </div>
   );
 };
+
+// ── Helper Components ────────────────────────────────────────────────────────
+
+const AttributeSelector = ({ label, options, selected, onToggle, labelStyle }: any) => (
+  <div style={{ marginBottom: '1.5rem' }}>
+    <label style={labelStyle}>{label}</label>
+    <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+      {options.map((opt: string) => {
+        const isSelected = selected.includes(opt);
+        return (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onToggle(opt)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.45rem 1rem',
+              borderRadius: '2rem',
+              border: `1.5px solid ${isSelected ? 'var(--primary)' : 'var(--border)'}`,
+              background: isSelected ? 'hsl(24, 100%, 97%)' : 'white',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              color: isSelected ? 'var(--primary)' : 'var(--text-muted)'
+            }}
+          >
+            <div style={{
+              width: '16px',
+              height: '16px',
+              borderRadius: '50%',
+              border: `1.5px solid ${isSelected ? 'var(--primary)' : 'var(--border)'}`,
+              background: isSelected ? 'var(--primary)' : 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {isSelected && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'white' }} />}
+            </div>
+            {opt}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+);
 
 export default ProductModal;

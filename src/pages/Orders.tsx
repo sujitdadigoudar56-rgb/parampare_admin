@@ -84,11 +84,12 @@ const OrdersPage = () => {
             style={{ padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--border)', background: 'white', outline: 'none' }}
           >
             <option value="">All Statuses</option>
-            <option value="pending">pending</option>
-            <option value="processing">processing</option>
-            <option value="shipped">shipped</option>
-            <option value="delivered">delivered</option>
-            <option value="cancelled">cancelled</option>
+            <option value="Order Confirmed">Order Confirmed</option>
+            <option value="Processing">Processing</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
           </select>
         </div>
       </div>
@@ -126,16 +127,17 @@ const OrdersPage = () => {
                       value={order.status} 
                       onChange={(e) => updateStatus(order._id, e.target.value)}
                       className={`badge badge-${
-                        order.status === 'delivered' ? 'success' : 
-                        order.status === 'cancelled' ? 'danger' : 'warning'
+                        order.status === 'Delivered' ? 'success' : 
+                        order.status === 'Cancelled' ? 'danger' : 'warning'
                       }`}
-                      style={{ border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '4px', fontWeight: '600' }}
+                      style={{ border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '4px', fontWeight: '600', height: 'auto', appearance: 'auto' }}
                     >
-                      <option value="pending">pending</option>
-                      <option value="processing">processing</option>
-                      <option value="shipped">shipped</option>
-                      <option value="delivered">delivered</option>
-                      <option value="cancelled">cancelled</option>
+                      <option value="Order Confirmed">Order Confirmed</option>
+                      <option value="Processing">Processing</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Out for Delivery">Out for Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
                     </select>
                   </td>
                   <td style={{ padding: '1rem' }}>

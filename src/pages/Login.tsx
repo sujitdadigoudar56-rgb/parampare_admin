@@ -43,55 +43,44 @@ const Login = () => {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'
+      background: 'var(--bg-main)'
     }}>
       <div className="login-card" style={{
         background: 'white',
-        padding: '2.5rem',
-        borderRadius: '1rem',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+        padding: '3rem',
+        borderRadius: '1.5rem',
+        boxShadow: 'var(--shadow-luxe)',
         width: '100%',
-        maxWidth: '400px'
+        maxWidth: '450px',
+        border: '1px solid var(--border)'
       }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{
-            width: '64px',
-            height: '64px',
-            background: '#f1f5f9',
-            borderRadius: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 1rem',
-            color: 'var(--primary)'
-          }}>
-            <LogIn size={32} />
-          </div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1e293b' }}>Parampare Admin</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Enter your credentials to access the portal</p>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <img src="/logo.png" alt="Kannada Parampare" style={{ width: '180px', margin: '0 auto 1.5rem', display: 'block' }} />
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Admin Portal</p>
         </div>
 
         {error && (
           <div style={{
             background: '#fee2e2',
             color: '#b91c1c',
-            padding: '0.75rem',
-            borderRadius: '0.5rem',
+            padding: '1rem',
+            borderRadius: '0.75rem',
             marginBottom: '1.5rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            fontSize: '0.875rem'
+            gap: '0.75rem',
+            fontSize: '0.875rem',
+            fontWeight: 500
           }}>
-            <AlertCircle size={18} />
+            <AlertCircle size={20} />
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1.25rem' }}>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', marginBottom: '0.5rem', color: '#475569' }}>
-              Email Address / Mobile
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Email / Mobile
             </label>
             <input
               type="text"
@@ -99,18 +88,12 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@parampare.com"
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                borderRadius: '0.5rem',
-                border: '1px solid var(--border)',
-                outline: 'none',
-              }}
+              style={{ width: '100%' }}
             />
           </div>
 
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', marginBottom: '0.5rem', color: '#475569' }}>
+          <div style={{ marginBottom: '2.5rem' }}>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Password
             </label>
             <input
@@ -119,13 +102,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                borderRadius: '0.5rem',
-                border: '1px solid var(--border)',
-                outline: 'none',
-              }}
+              style={{ width: '100%' }}
             />
           </div>
 
@@ -135,13 +112,11 @@ const Login = () => {
             className="btn-primary"
             style={{
               width: '100%',
-              padding: '0.875rem',
+              padding: '1rem',
               fontSize: '1rem',
-              opacity: loading ? 0.7 : 1,
-              cursor: loading ? 'not-allowed' : 'pointer'
             }}
           >
-            {loading ? 'Logging in...' : 'Sign In'}
+            {loading ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
       </div>

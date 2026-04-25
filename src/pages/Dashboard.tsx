@@ -34,49 +34,49 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
-      <header className="page-header" style={{marginBottom: '2rem'}}>
-        <h1 style={{fontSize: '1.875rem', fontWeight: '700'}}>Dashboard Overview</h1>
-        <p style={{color: 'var(--text-muted)'}}>Welcome to the Parampare Admin Portal</p>
+      <header className="page-header">
+        <h1>Dashboard</h1>
+        <p className="text-muted">Welcome to the Parampare Admin Portal</p>
       </header>
 
-      <div className="stats-grid" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '3rem'}}>
-        <div className="stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2.5rem' }}>
+        <div className="stat-card">
           <div className="stat-info">
-            <h3 style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.5rem'}}>Total Revenue</h3>
-            <div className="value" style={{fontSize: '1.5rem', fontWeight: '700'}}>₹{stats.totalRevenue.toLocaleString()}</div>
+            <h3>Revenue</h3>
+            <div className="value">₹{stats.totalRevenue.toLocaleString()}</div>
           </div>
-          <div className="stat-icon" style={{background: 'var(--primary-light)', padding: '0.75rem', borderRadius: '0.75rem', color: 'var(--primary)'}}><IndianRupee /></div>
+          <div className="stat-icon" style={{color: 'var(--primary)', background: 'hsl(24, 70%, 95%)'}}><IndianRupee /></div>
         </div>
         <Link to="/orders" style={{textDecoration: 'none', color: 'inherit'}}>
-          <div className="stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div className="stat-card">
             <div className="stat-info">
-              <h3 style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.5rem'}}>Total Orders</h3>
-              <div className="value" style={{fontSize: '1.5rem', fontWeight: '700'}}>{stats.totalOrders}</div>
+              <h3>Orders</h3>
+              <div className="value">{stats.totalOrders}</div>
             </div>
-            <div className="stat-icon" style={{background: '#e0f2fe', padding: '0.75rem', borderRadius: '0.75rem', color: '#0ea5e9'}}><ShoppingCart /></div>
+            <div className="stat-icon" style={{color: 'var(--secondary)', background: 'var(--border)'}}><ShoppingCart /></div>
           </div>
         </Link>
         <Link to="/products" style={{textDecoration: 'none', color: 'inherit'}}>
-          <div className="stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div className="stat-card">
             <div className="stat-info">
-              <h3 style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.5rem'}}>Products</h3>
-              <div className="value" style={{fontSize: '1.5rem', fontWeight: '700'}}>{stats.totalProducts}</div>
+              <h3>Products</h3>
+              <div className="value">{stats.totalProducts}</div>
             </div>
-            <div className="stat-icon" style={{background: '#fef3c7', padding: '0.75rem', borderRadius: '0.75rem', color: '#f59e0b'}}><ShoppingBag /></div>
+            <div className="stat-icon" style={{color: 'var(--primary)', background: 'hsl(45, 92%, 92%)'}}><ShoppingBag /></div>
           </div>
         </Link>
         <Link to="/users" style={{textDecoration: 'none', color: 'inherit'}}>
-          <div className="stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div className="stat-card">
             <div className="stat-info">
-              <h3 style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.5rem'}}>Users</h3>
-              <div className="value" style={{fontSize: '1.5rem', fontWeight: '700'}}>{stats.totalUsers}</div>
+              <h3>Users</h3>
+              <div className="value">{stats.totalUsers}</div>
             </div>
-            <div className="stat-icon" style={{background: '#fce7f3', padding: '0.75rem', borderRadius: '0.75rem', color: '#ec4899'}}><UsersIcon /></div>
+            <div className="stat-icon" style={{color: 'var(--secondary)', background: 'var(--border)'}}><UsersIcon /></div>
           </div>
         </Link>
       </div>
 
-      <section className="recent-orders" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-sm)'}}>
+      <section className="recent-orders" style={{background: 'var(--bg-card)', padding: '2rem', borderRadius: '1.25rem', boxShadow: 'var(--shadow-luxe)', border: '1px solid var(--border)'}}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
           <h2 style={{fontSize: '1.25rem', fontWeight: '700'}}>Recent Orders</h2>
           <Link to="/orders" style={{fontSize: '0.875rem', color: 'var(--primary)', fontWeight: '600', textDecoration: 'none'}}>View All</Link>

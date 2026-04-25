@@ -14,7 +14,9 @@ import Login from './pages/Login';
 
 const Sidebar = ({ onLogout }: { onLogout: () => void }) => (
   <div className="sidebar">
-    <div className="sidebar-logo">Parampare Admin</div>
+    <div className="sidebar-logo">
+      <img src="/logo.png" alt="Kannada Parampare" style={{ maxWidth: '140px', height: 'auto' }} />
+    </div>
     <nav className="nav-links">
       <NavLink to="/dashboard" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
         <LayoutDashboard size={20} /> Dashboard

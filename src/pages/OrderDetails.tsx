@@ -54,16 +54,17 @@ const OrderDetails = () => {
             value={order.status} 
             onChange={(e) => updateStatus(e.target.value)}
             className={`badge badge-${
-              order.status === 'delivered' ? 'success' : 
-              order.status === 'cancelled' ? 'danger' : 'warning'
+              order.status === 'Delivered' ? 'success' : 
+              order.status === 'Cancelled' ? 'danger' : 'warning'
             }`}
-            style={{padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--border)', fontSize: '0.875rem', fontWeight: '600'}}
+            style={{padding: '0.6rem 1.25rem', borderRadius: '0.75rem', border: '1px solid var(--border)', fontSize: '0.875rem', fontWeight: '700', height: 'auto', background: 'white'}}
           >
-            <option value="pending">pending</option>
-            <option value="processing">processing</option>
-            <option value="shipped">shipped</option>
-            <option value="delivered">delivered</option>
-            <option value="cancelled">cancelled</option>
+            <option value="Order Confirmed">Order Confirmed</option>
+            <option value="Processing">Processing</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
           </select>
         </div>
       </header>
@@ -78,16 +79,20 @@ const OrderDetails = () => {
               {order.items.map((item: any) => (
                 <div key={item._id} style={{display: 'flex', alignItems: 'center', gap: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)'}}>
                   <div style={{width: '64px', height: '64px', background: '#f8fafc', borderRadius: '0.5rem', overflow: 'hidden'}}>
-                    {item.product?.images?.[0] ? (
-                      <img src={item.product.images[0]} alt={item.product.name} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                    {item.image ? (
+                      <img src={item.image} alt={item.name} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                     ) : (
                       <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Package size={20} color="#cbd5e1" /></div>
                     )}
                   </div>
                   <div style={{flex: 1}}>
-                    <Link to={`/products/${item.product?._id}`} style={{fontWeight: '600', color: 'var(--primary-dark)'}}>
-                      {item.product?.name || 'Deleted Product'}
-                    </Link>
+                    {item.product ? (
+                      <Link to={`/products/${item.product?._id || item.product}`} style={{fontWeight: '600', color: 'var(--primary-dark)'}}>
+                        {item.name}
+                      </Link>
+                    ) : (
+                      <span style={{fontWeight: '600', color: 'var(--text-main)'}}>{item.name}</span>
+                    )}
                     <p style={{fontSize: '0.875rem', color: 'var(--text-muted)'}}>Qty: {item.quantity}</p>
                   </div>
                   <div style={{fontWeight: '600'}}>₹{item.price.toLocaleString()}</div>
@@ -95,13 +100,17 @@ const OrderDetails = () => {
               ))}
             </div>
             <div style={{marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-end'}}>
-              <div style={{display: 'flex', justifyContent: 'space-between', width: '200px', color: 'var(--text-muted)'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', width: '220px', color: 'var(--text-muted)'}}>
                 <span>Subtotal</span>
-                <span>₹{order.totalAmount.toLocaleString()}</span>
+                <span>₹{(order.subtotal || 0).toLocaleString()}</span>
               </div>
-              <div style={{display: 'flex', justifyContent: 'space-between', width: '200px', fontWeight: '700', fontSize: '1.125rem', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '2px solid var(--border)'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', width: '220px', color: 'var(--text-muted)'}}>
+                <span>Delivery Charge</span>
+                <span>{order.deliveryCharge === 0 ? 'FREE' : `₹${order.deliveryCharge}`}</span>
+              </div>
+              <div style={{display: 'flex', justifyContent: 'space-between', width: '220px', fontWeight: '700', fontSize: '1.125rem', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '2px solid var(--border)'}}>
                 <span>Total</span>
-                <span style={{color: 'var(--primary)'}}>₹{order.totalAmount.toLocaleString()}</span>
+                <span style={{color: 'var(--primary)'}}>₹{(order.totalAmount || 0).toLocaleString()}</span>
               </div>
             </div>
           </section>
@@ -113,18 +122,24 @@ const OrderDetails = () => {
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem'}}>
               <div>
                 <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>Method</p>
-                <p style={{fontWeight: '500'}}>{order.paymentInfo?.method || 'N/A'}</p>
+                <p style={{fontWeight: '500'}}>{order.paymentMethod || 'N/A'}</p>
               </div>
               <div>
                 <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>Status</p>
-                <span className={`badge badge-${order.paymentInfo?.status === 'completed' ? 'success' : 'warning'}`}>
-                  {order.paymentInfo?.status || 'pending'}
+                <span className={`badge badge-${order.paymentStatus === 'Paid' ? 'success' : order.paymentStatus === 'Failed' ? 'danger' : 'warning'}`}>
+                  {order.paymentStatus || 'Pending'}
                 </span>
               </div>
-              {order.paymentInfo?.transactionId && (
-                <div style={{gridColumn: '1 / span 2'}}>
-                  <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>Transaction ID</p>
-                  <p style={{fontFamily: 'monospace'}}>{order.paymentInfo.transactionId}</p>
+              {order.razorpayOrderId && (
+                <div>
+                  <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>Razorpay Order ID</p>
+                  <p style={{fontFamily: 'monospace', fontSize: '0.8rem'}}>{order.razorpayOrderId}</p>
+                </div>
+              )}
+              {order.razorpayPaymentId && (
+                <div>
+                  <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>Razorpay Payment ID</p>
+                  <p style={{fontFamily: 'monospace', fontSize: '0.8rem'}}>{order.razorpayPaymentId}</p>
                 </div>
               )}
             </div>
@@ -155,12 +170,21 @@ const OrderDetails = () => {
             </h2>
             {order.shippingAddress ? (
               <div style={{fontSize: '0.875rem', lineHeight: '1.6'}}>
-                <p style={{fontWeight: '500'}}>{order.shippingAddress.address}</p>
-                <p>{order.shippingAddress.city}, {order.shippingAddress.postalCode}</p>
-                <p>{order.shippingAddress.country}</p>
+                <p style={{fontWeight: '600'}}>{order.shippingAddress.fullName}</p>
+                <p style={{color: 'var(--text-muted)', marginBottom: '0.5rem'}}>{order.shippingAddress.mobile}</p>
+                <p>{order.shippingAddress.house}, {order.shippingAddress.street}</p>
+                {order.shippingAddress.landmark && <p style={{fontStyle: 'italic'}}>Landmark: {order.shippingAddress.landmark}</p>}
+                <p>{order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pincode}</p>
+                {order.shippingAddress.alternatePhone && <p style={{fontSize: '0.75rem', color: 'var(--text-muted)'}}>Alt: {order.shippingAddress.alternatePhone}</p>}
               </div>
             ) : (
               <p>Address not available</p>
+            )}
+            {order.trackingNumber && (
+              <div style={{marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)'}}>
+                 <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem'}}>Tracking Number</p>
+                 <p style={{fontWeight: '600'}}>{order.trackingNumber}</p>
+              </div>
             )}
           </section>
         </div>
