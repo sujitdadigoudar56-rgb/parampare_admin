@@ -1,6 +1,8 @@
 export const FABRIC_OPTIONS = [
   'Silk', 'Cotton', 'Linen', 'Chiffon', 'Georgette', 'Organza', 
-  'Kanjivaram Silk', 'Banarasi Silk', 'Tussar Silk', 'Crepe', 'Art Silk', 'Net'
+  'Kanjivaram Silk', 'Banarasi Silk', 'Tussar Silk', 'Crepe', 'Art Silk', 'Net',
+  'Soft pc silk', 'Mercerised silk', 'Shiny Mercerised blended silk', 
+  'Viscous by cotton', 'silk by cotton', 'Mercerised cotton'
 ];
 
 export const COLOR_OPTIONS = [
@@ -19,12 +21,15 @@ export const WEAVE_OPTIONS = [
 
 export const BORDER_OPTIONS = [
   'Zari Border', 'Contrast Border', 'Small Border', 'Big Border', 
-  'No Border', 'Temple Border', 'Embroidered Border', 'Lace Border'
+  'No Border', 'Temple Border', 'Embroidered Border', 'Lace Border',
+  'Chikki Paras border', 'Thoda paras border Borderless', 'Gomi dadi paras border', 
+  'Rudrakshi border', 'Silver border', 'Gayatri border'
 ];
 
 export const PALLU_OPTIONS = [
   'Rich Pallu', 'Contrast Pallu', 'Simple Pallu', 'Zari Pallu', 
-  'Tassel Pallu', 'Designer Pallu', 'Floral Pallu', 'Tope Pallu'
+  'Tassel Pallu', 'Designer Pallu', 'Floral Pallu', 'Tope Pallu',
+  'Patti pallu', 'catalon pallu', 'Gonda pallu', 'Silk pallu', 'semi silk pallu'
 ];
 
 export const BLOUSE_OPTIONS = [
