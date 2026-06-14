@@ -175,3 +175,4 @@ const CategoriesPage = () => {
 };
 
 export default CategoriesPage;
+// fixing the deployment
